@@ -11,6 +11,7 @@
 ## Pre Requisites
 #### Python 3.5+
 #### Libraries - Numpy, Pandas, Scikit-learn, NLTK, plotly, sqlalchemy, Pickle
+#### Web app - Flask
 
 
 ## Files 
