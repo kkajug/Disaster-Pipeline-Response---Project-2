@@ -16,7 +16,9 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.base import BaseEstimator, TransformerMixin
 import nltk
+from workspace_utils import active_session
 nltk.download(['punkt', 'wordnet', 'stopwords'])
 import pickle
 
@@ -52,49 +54,22 @@ def tokenize(text):
 
 
 def build_model():
-    '''
-    Creates a pipeline
-    Improves the model by modifying the parameters
-    '''
-    #Model 1
+    """
+    pipe line construction
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(RandomForestClassifier()))
-    ])
-    
-    return pipeline
-    #Improving our model
-    #Gridsearch taking ages to run hence not using it
-    #parameters = {'vect__min_df': [1, 5],
-        #'tfidf__use_idf':[True, False],
-        #'clf__estimator__n_estimators':[10, 25], 
-        #'clf__estimator__min_samples_split':[2, 5, 10]}
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))])
 
-    #cv = GridSearchCV(pipeline, parameters)
-    #return cv
-    #Improving our model further
-    #pipeline = Pipeline([
-        #('features', FeatureUnion([
+    parameters = {'vect__min_df': [1, 5],
+                'tfidf__use_idf': [True, False],
+                'clf__estimator__n_estimators': [10, 25],
+                'clf__estimator__min_samples_split': [2, 4]}
 
-            #('text_pipeline', Pipeline([
-               # ('vect', CountVectorizer(tokenizer=tokenize)),
-               # ('tfidf', TfidfTransformer())
-           # ])),
+    cv = GridSearchCV(pipeline, param_grid=parameters)
 
-        #])),
-
-        #('clf', MultiOutputClassifier(RandomForestClassifier()))
-    #])
-    #return pipeline'''
-    #parameters = {'vect__min_df': [1, 5],
-       # 'tfidf__use_idf':[True, False],
-        #'clf__estimator__n_estimators':[10, 25], 
-        #'clf__estimator__min_samples_split':[2, 5, 10]}
-
-    #cv = GridSearchCV(pipeline, parameters, n_jobs= 3)
-    #return cv
-
+    return cv
 
 def evaluate_model(model, X_test, Y_test):
     '''
@@ -116,6 +91,9 @@ def evaluate_model(model, X_test, Y_test):
     
 
 def save_model(model, model_filepath):
+    '''
+    This function saves our model as a pickle file
+    '''
     #model_filepath = 'Disaster_pipeline_model.sav'
     pickle.dump(model, open(model_filepath, 'wb'))
     pass
