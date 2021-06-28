@@ -3,7 +3,7 @@
 ## Project Overview
 #### This project is a part of the Udacity Data science Nanodegree. In this project, we have applied our skills to analyze disaster data from Figure Eight to build a model for an API that classifies disaster messages on a real time basis. The data set contains real messages that were sent durring disaster events. My machine learning pipeline categorises these events so that messages  ca be sent to appropriate disaster relief agency.
 
-### The funnel app inside the app folder can be used by an emergency worker to input a new messgae and get the classification results based on the message. The app also displays the visualisationsof the data.
+#### The funnel app inside the app folder can be used by an emergency worker to input a new messgae and get the classification results based on the message. The app also displays the visualisationsof the data.
 
 ### The project is divided into 3 sections -
 #### Building an ETL pipeline
