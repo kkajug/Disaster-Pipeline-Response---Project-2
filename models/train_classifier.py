@@ -77,11 +77,14 @@ def evaluate_model(model, X_test, Y_test):
     Iterates across the various columns
     and generates the classification report
     '''
+    engine = create_engine('sqlite:///data/DisasterResponse.db')
+    df = pd.read_sql_table("ETL_message_categories", con=engine)
+    Y = df.iloc[:, 4:]
     y_pred = model.predict(X_test)
     
     for i, column in enumerate(Y_test):
         print("------------------------------------")
-        #print("Category : ", Y.columns[i])
+        print("Category : ", Y.columns[i])
         print(classification_report(Y_test[column], y_pred[:, i]))
         print("Accuracy_score : ", accuracy_score(Y_test[column], y_pred[:, i]))
         print("      ")
